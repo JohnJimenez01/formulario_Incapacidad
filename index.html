@@ -20,6 +20,8 @@
     --green: #1E8449;
     --green-light: #27AE60;
     --green-pale: #E9F7EF;
+    --error: #c0392b;
+    --error-pale: #fdf2f1;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,7 +39,6 @@
     margin: 0 auto;
   }
 
-  /* Header Card */
   .header-card {
     background: var(--white);
     border-radius: var(--radius);
@@ -71,7 +72,6 @@
     gap: 5px;
   }
 
-  /* Form Card */
   .form-card {
     background: var(--white);
     border-radius: var(--radius);
@@ -92,16 +92,8 @@
     margin-bottom: 8px;
   }
 
-  label .req {
-    color: var(--green);
-    margin-left: 2px;
-  }
-
-  label .num {
-    color: var(--mid);
-    font-weight: 400;
-    margin-right: 4px;
-  }
+  label .req { color: var(--green); margin-left: 2px; }
+  label .num { color: var(--mid); font-weight: 400; margin-right: 4px; }
 
   input[type="text"],
   input[type="email"],
@@ -127,10 +119,8 @@
   }
 
   textarea { resize: vertical; min-height: 80px; }
-
   select { cursor: pointer; }
 
-  /* Radio / Checkbox groups */
   .options-group {
     display: flex;
     flex-direction: column;
@@ -160,12 +150,8 @@
     flex-shrink: 0;
   }
 
-  .option-item span {
-    font-size: 14px;
-    color: var(--dark);
-  }
+  .option-item span { font-size: 14px; color: var(--dark); }
 
-  /* File upload */
   .file-upload-area {
     border: 2px dashed var(--border);
     border-radius: 8px;
@@ -190,17 +176,8 @@
     height: 100%;
   }
 
-  .file-upload-area .upload-icon {
-    font-size: 28px;
-    color: var(--mid);
-    margin-bottom: 8px;
-  }
-
-  .file-upload-area p {
-    font-size: 13px;
-    color: var(--mid);
-  }
-
+  .file-upload-area .upload-icon { font-size: 28px; color: var(--mid); margin-bottom: 8px; }
+  .file-upload-area p { font-size: 13px; color: var(--mid); }
   .file-upload-area .file-btn {
     display: inline-block;
     margin-top: 10px;
@@ -214,12 +191,6 @@
     cursor: pointer;
   }
 
-  .file-note {
-    font-size: 12px;
-    color: var(--mid);
-    margin-top: 8px;
-  }
-
   #file-name-display {
     margin-top: 8px;
     font-size: 13px;
@@ -228,21 +199,18 @@
     display: none;
   }
 
-  /* Divider */
   .divider {
     height: 1px;
     background: var(--border);
     margin: 8px 0 28px;
   }
 
-  /* Date row */
   .date-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
 
-  /* Submit */
   .submit-card {
     background: var(--white);
     border-radius: var(--radius);
@@ -283,7 +251,6 @@
     font-family: 'DM Sans', sans-serif;
   }
 
-  /* Toast */
   .toast {
     position: fixed;
     bottom: 30px;
@@ -299,16 +266,12 @@
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
     z-index: 999;
+    max-width: 340px;
   }
 
-  .toast.show {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.error { background: #c0392b; }
 
-  .toast.error { background: #1A5276; }
-
-  /* Loading spinner */
   .spinner {
     display: inline-block;
     width: 16px; height: 16px;
@@ -322,10 +285,10 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Validation */
+  /* ── Validation styles ── */
   .field-error {
     font-size: 12px;
-    color: #1A5276;
+    color: var(--error);
     margin-top: 5px;
     display: none;
   }
@@ -333,10 +296,37 @@
   .field-group.has-error input,
   .field-group.has-error select,
   .field-group.has-error textarea {
-    border-color: #2E86C1;
+    border-color: var(--error);
+    background: var(--error-pale);
+  }
+
+  .field-group.has-error .file-upload-area {
+    border-color: var(--error);
+    background: var(--error-pale);
   }
 
   .field-group.has-error .field-error { display: block; }
+
+  /* Input hint */
+  .field-hint {
+    font-size: 12px;
+    color: var(--mid);
+    margin-top: 5px;
+  }
+
+  /* Days badge */
+  #dias {
+    background: #f5f5f5;
+    color: var(--mid);
+    font-weight: 500;
+  }
+
+  .days-warning {
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 5px;
+    display: none;
+  }
 
   @media (max-width: 520px) {
     .header-card, .form-card, .submit-card { padding: 24px 20px; }
@@ -349,62 +339,67 @@
 
 <div class="page-wrapper">
 
-  <!-- Header -->
   <div class="header-card">
     <h1>Reporte de Incapacidad</h1>
     <p>Diligencie este formulario para registrar su novedad de incapacidad. La información será procesada por el área de Gestión Humana.</p>
     <p class="required-note">* Campos obligatorios</p>
   </div>
 
-  <!-- Form -->
-  <form id="incapacidadForm" novalidate>
+  <form id="incapacidadForm" novalidate autocomplete="off">
     <div class="form-card">
 
       <!-- 1. Correo electrónico -->
       <div class="field-group" id="group-email">
         <label for="email"><span class="num">1.</span> Correo electrónico <span class="req">*</span></label>
-        <input type="email" id="email" name="email" placeholder="correo@empresa.com" required>
-        <div class="field-error">Por favor ingrese un correo válido.</div>
+        <input type="email" id="email" name="email" placeholder="correo@datatools.com.co" required maxlength="120">
+        <div class="field-hint">Debe usar su correo corporativo @datatools.com.co</div>
+        <div class="field-error" id="error-email">Ingrese un correo válido con dominio @datatools.com.co</div>
       </div>
 
       <!-- 2. Documento -->
       <div class="field-group" id="group-documento">
         <label for="documento"><span class="num">2.</span> Documento de Identidad (sin puntos) <span class="req">*</span></label>
-        <input type="text" id="documento" name="documento" placeholder="Ej: 1012345678" required pattern="[0-9]+">
-        <div class="field-error">Ingrese solo números, sin puntos ni espacios.</div>
-      </div>
-
-      <!-- 3. Nombres y Apellidos -->
-      <div class="field-group" id="group-nombres_apellidos">
-        <label for="nombres_apellidos"><span class="num">3.</span> Nombres y Apellidos <span class="req">*</span></label>
-        <input type="text" id="nombres_apellidos" name="nombres_apellidos" placeholder="Nombre completo como aparece en el documento" required>
-        <div class="field-error">Este campo es obligatorio.</div>
+        <input type="text" id="documento" name="documento" placeholder="Ej: 1012345678" required
+               maxlength="10" inputmode="numeric" pattern="[0-9]{8,10}">
+        <div class="field-hint">Solo números, entre 8 y 10 dígitos.</div>
+        <div class="field-error" id="error-documento">La cédula debe tener entre 8 y 10 dígitos numéricos.</div>
       </div>
 
       <div class="divider"></div>
 
-      <!-- 4. Tipo de Novedad -->
+      <!-- 3. Nombres y Apellidos -->
+      <div class="field-group" id="group-nombres_apellidos">
+        <label for="nombres_apellidos"><span class="num">3.</span> Nombres y Apellidos <span class="req">*</span></label>
+        <input type="text" id="nombres_apellidos" name="nombres_apellidos"
+               placeholder="Nombre completo como aparece en el documento" required maxlength="100">
+        <div class="field-hint">Solo letras y espacios. Sin números.</div>
+        <div class="field-error" id="error-nombres_apellidos">El nombre no puede contener números. Solo letras y espacios.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 4. Tipo de Novedad (orden alfabético) -->
       <div class="field-group" id="group-tipo_novedad">
         <label><span class="num">4.</span> Tipo de Novedad <span class="req">*</span></label>
         <div class="options-group">
           <label class="option-item">
-            <input type="radio" name="tipo_novedad" value="Incapacidad por Enfermedad General" required>
-            <span>Incapacidad por Enfermedad General</span>
-          </label>
-          <label class="option-item">
-            <input type="radio" name="tipo_novedad" value="Incapacidad por Accidente de Trabajo">
+            <input type="radio" name="tipo_novedad" value="Incapacidad por Accidente de Trabajo" required>
             <span>Incapacidad por Accidente de Trabajo</span>
           </label>
           <label class="option-item">
-            <input type="radio" name="tipo_novedad" value="Licencia de Maternidad / Paternidad">
-            <span>Licencia de Maternidad / Paternidad</span>
+            <input type="radio" name="tipo_novedad" value="Incapacidad por Enfermedad General">
+            <span>Incapacidad por Enfermedad General</span>
           </label>
           <label class="option-item">
             <input type="radio" name="tipo_novedad" value="Incapacidad Soat">
             <span>Incapacidad Soat</span>
           </label>
+          <label class="option-item">
+            <input type="radio" name="tipo_novedad" value="Licencia de Maternidad / Paternidad">
+            <span>Licencia de Maternidad / Paternidad</span>
+          </label>
         </div>
-        <div class="field-error">Seleccione un tipo de novedad.</div>
+        <div class="field-error" id="error-tipo_novedad">Seleccione un tipo de novedad.</div>
       </div>
 
       <div class="divider"></div>
@@ -414,24 +409,25 @@
         <div class="field-group" id="group-fecha_inicio">
           <label for="fecha_inicio"><span class="num">5.</span> Fecha Inicio Incapacidad <span class="req">*</span></label>
           <input type="date" id="fecha_inicio" name="fecha_inicio" required>
-          <div class="field-error">Seleccione la fecha de inicio.</div>
+          <div class="field-error" id="error-fecha_inicio">Seleccione una fecha de inicio válida.</div>
         </div>
         <div class="field-group" id="group-fecha_fin">
           <label for="fecha_fin"><span class="num">6.</span> Fecha Final Incapacidad <span class="req">*</span></label>
           <input type="date" id="fecha_fin" name="fecha_fin" required>
-          <div class="field-error">Seleccione la fecha final.</div>
+          <div class="field-error" id="error-fecha_fin">La fecha final debe ser igual o posterior a la fecha de inicio.</div>
         </div>
       </div>
 
-      <!-- Días (calculado automáticamente) -->
+      <!-- Días calculados -->
       <div class="field-group" id="group-dias">
         <label for="dias"><span class="num">→</span> Días de incapacidad</label>
-        <input type="number" id="dias" name="dias" placeholder="Se calcula automáticamente" readonly style="background:#f5f5f5; color: var(--mid);">
+        <input type="number" id="dias" name="dias" placeholder="Se calcula automáticamente" readonly>
+        <div class="days-warning" id="days-warning">⚠ La incapacidad supera 540 días. Verifique las fechas.</div>
       </div>
 
       <!-- Prórroga -->
       <div class="field-group" id="group-prorroga">
-        <label><span class="num">7.</span> prórroga <span class="req">*</span></label>
+        <label><span class="num">7.</span> Prórroga <span class="req">*</span></label>
         <div class="options-group" style="flex-direction: row; gap: 12px;">
           <label class="option-item" style="flex:1">
             <input type="radio" name="prorroga" value="Sí" required>
@@ -442,33 +438,38 @@
             <span>No</span>
           </label>
         </div>
-        <div class="field-error">Indique si es prórroga.</div>
+        <div class="field-error" id="error-prorroga">Indique si es prórroga.</div>
       </div>
 
       <div class="divider"></div>
 
-      <!-- Archivo incapacidad -->
+      <!-- 8. Archivo -->
       <div class="field-group" id="group-archivo">
         <label><span class="num">8.</span> Por favor ingrese la Incapacidad <span class="req">*</span></label>
         <div class="file-upload-area" id="dropArea">
-          <input type="file" id="archivo" name="archivo" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx,.ppt,.pptx,.mp4" required>
+          <input type="file" id="archivo" name="archivo"
+                 accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
           <div class="upload-icon">⬆</div>
           <p>Arrastra y suelta tu archivo aquí o</p>
           <span class="file-btn">Cargar archivo</span>
-          <p style="margin-top:8px; font-size:12px; color: var(--mid);">Límite: 1 archivo · Máx. 10MB · Word, Excel, PPT, PDF, Imagen, Video</p>
+          <p style="margin-top:8px; font-size:12px; color: var(--mid);">
+            1 archivo · Máx. 10 MB · PDF, Imagen (JPG/PNG), Word
+          </p>
         </div>
         <div id="file-name-display">📎 <span id="file-name-text"></span></div>
-        <div class="field-error">Por favor adjunte la incapacidad.</div>
+        <div class="field-error" id="error-archivo">Adjunte la incapacidad en formato permitido (PDF, JPG, PNG, DOC, DOCX).</div>
       </div>
 
-      <!-- 10. Diagnóstico -->
+      <!-- 9. Diagnóstico -->
       <div class="field-group" id="group-diagnostico">
         <label for="diagnostico"><span class="num">9.</span> Diagnóstico <span class="req">*</span></label>
-        <textarea id="diagnostico" name="diagnostico" placeholder="Describa el diagnóstico médico" required></textarea>
-        <div class="field-error">Este campo es obligatorio.</div>
+        <textarea id="diagnostico" name="diagnostico"
+                  placeholder="Describa el diagnóstico médico" required maxlength="1000"></textarea>
+        <div class="field-hint">Mínimo 10 caracteres. Máx. 1000.</div>
+        <div class="field-error" id="error-diagnostico">El diagnóstico debe tener al menos 10 caracteres.</div>
       </div>
 
-    </div><!-- end form-card -->
+    </div>
 
     <div class="submit-card">
       <button type="button" class="clear-btn" id="clearBtn">Borrar formulario</button>
@@ -482,106 +483,250 @@
 
 <script>
   // ── CONFIG ──────────────────────────────────────────────────
-  // Cambia esta URL por la del webhook de n8n
   const WEBHOOK_URL = "https://n8n_srv1.datatools.com.co/webhook/incapacidad";
+  const ALLOWED_DOMAIN = "datatools.com.co";
+  const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
+  const ALLOWED_EXTENSIONS = ['pdf','jpg','jpeg','png','doc','docx'];
+  const ALLOWED_MIME = [
+    'application/pdf',
+    'image/jpeg','image/png',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ];
+  const MIN_DATE = new Date('2000-01-01');
+  const MAX_DATE = new Date('2099-12-31');
+  const MAX_INCAPACITY_DAYS = 540;
   // ────────────────────────────────────────────────────────────
 
-  // Auto-calculate days
-  const fechaInicio = document.getElementById('fecha_inicio');
-  const fechaFin = document.getElementById('fecha_fin');
-  const diasInput = document.getElementById('dias');
+  const fechaInicioEl = document.getElementById('fecha_inicio');
+  const fechaFinEl    = document.getElementById('fecha_fin');
+  const diasInput     = document.getElementById('dias');
+  const daysWarning   = document.getElementById('days-warning');
 
+  // Set min/max for date inputs to avoid absurd dates
+  const todayStr = new Date().toISOString().split('T')[0];
+  const minDateStr = '2000-01-01';
+  const maxDateStr = '2099-12-31';
+  fechaInicioEl.setAttribute('min', minDateStr);
+  fechaInicioEl.setAttribute('max', maxDateStr);
+  fechaFinEl.setAttribute('min', minDateStr);
+  fechaFinEl.setAttribute('max', maxDateStr);
+
+  // ── Sanitize text (strip HTML tags) ──────────────────────────
+  function sanitize(str) {
+    return str.replace(/[<>"'`]/g, '');
+  }
+
+  // ── Validators ───────────────────────────────────────────────
+
+  function validEmail(v) {
+    v = v.trim().toLowerCase();
+    const regex = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
+    if (!regex.test(v)) return false;
+    const domain = v.split('@')[1];
+    // Accept exact domain or subdomain of datatools.com.co
+    return domain === ALLOWED_DOMAIN || domain.endsWith('.' + ALLOWED_DOMAIN);
+  }
+
+  function validDocumento(v) {
+    v = v.trim();
+    return /^[0-9]{8,10}$/.test(v);
+  }
+
+  function validNombre(v) {
+    v = v.trim();
+    if (v.length < 3) return false;
+    // Allow letters (incl. accented), spaces, hyphens — NO digits
+    return /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s\-']+$/.test(v);
+  }
+
+  function validDate(v) {
+    if (!v) return false;
+    const d = new Date(v);
+    return d >= MIN_DATE && d <= MAX_DATE;
+  }
+
+  function validDates() {
+    if (!fechaInicioEl.value || !fechaFinEl.value) return false;
+    const d1 = new Date(fechaInicioEl.value);
+    const d2 = new Date(fechaFinEl.value);
+    return d2 >= d1;
+  }
+
+  function validFile(file) {
+    if (!file) return { ok: false, msg: 'Adjunte la incapacidad.' };
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (!ALLOWED_EXTENSIONS.includes(ext))
+      return { ok: false, msg: `Formato no permitido. Use: ${ALLOWED_EXTENSIONS.join(', ')}` };
+    if (!ALLOWED_MIME.includes(file.type))
+      return { ok: false, msg: 'Tipo de archivo no permitido.' };
+    if (file.size > MAX_FILE_BYTES)
+      return { ok: false, msg: 'El archivo supera el límite de 10 MB.' };
+    return { ok: true };
+  }
+
+  // ── Calculate days ───────────────────────────────────────────
   function calcDias() {
-    if (fechaInicio.value && fechaFin.value) {
-      const d1 = new Date(fechaInicio.value);
-      const d2 = new Date(fechaFin.value);
+    if (fechaInicioEl.value && fechaFinEl.value) {
+      const d1 = new Date(fechaInicioEl.value);
+      const d2 = new Date(fechaFinEl.value);
+      if (d2 < d1) {
+        diasInput.value = '';
+        daysWarning.style.display = 'none';
+        return;
+      }
       const diff = Math.round((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
-      diasInput.value = diff > 0 ? diff : '';
+      diasInput.value = diff;
+      daysWarning.style.display = diff > MAX_INCAPACITY_DAYS ? 'block' : 'none';
+
+      // Update fecha_fin min to be >= fecha_inicio
+      fechaFinEl.setAttribute('min', fechaInicioEl.value);
+    } else {
+      diasInput.value = '';
+      daysWarning.style.display = 'none';
     }
   }
 
-  fechaInicio.addEventListener('change', calcDias);
-  fechaFin.addEventListener('change', calcDias);
+  fechaInicioEl.addEventListener('change', calcDias);
+  fechaFinEl.addEventListener('change', calcDias);
 
-  // File display
-  const archivoInput = document.getElementById('archivo');
-  const fileNameDisplay = document.getElementById('file-name-display');
-  const fileNameText = document.getElementById('file-name-text');
+  // ── File display & validation ─────────────────────────────────
+  const archivoInput     = document.getElementById('archivo');
+  const fileNameDisplay  = document.getElementById('file-name-display');
+  const fileNameText     = document.getElementById('file-name-text');
+  const errorArchivo     = document.getElementById('error-archivo');
 
   archivoInput.addEventListener('change', () => {
-    if (archivoInput.files[0]) {
-      fileNameText.textContent = archivoInput.files[0].name;
+    const file = archivoInput.files[0];
+    if (!file) {
+      fileNameDisplay.style.display = 'none';
+      return;
+    }
+    const result = validFile(file);
+    if (!result.ok) {
+      errorArchivo.textContent = result.msg;
+      document.getElementById('group-archivo').classList.add('has-error');
+      archivoInput.value = '';
+      fileNameDisplay.style.display = 'none';
+    } else {
+      document.getElementById('group-archivo').classList.remove('has-error');
+      fileNameText.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
       fileNameDisplay.style.display = 'block';
     }
   });
 
-  // Toast helper
-  function showToast(msg, type='') {
+  // ── Real-time feedback on critical fields ─────────────────────
+  document.getElementById('documento').addEventListener('input', function () {
+    // Only allow digits
+    this.value = this.value.replace(/[^0-9]/g, '');
+  });
+
+  document.getElementById('nombres_apellidos').addEventListener('input', function () {
+    // Prevent digit typing
+    this.value = this.value.replace(/[0-9]/g, '');
+  });
+
+  // ── Toast ─────────────────────────────────────────────────────
+  function showToast(msg, type = '') {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = 'toast show ' + type;
-    setTimeout(() => { t.className = 'toast'; }, 4000);
+    setTimeout(() => { t.className = 'toast'; }, 5000);
   }
 
-  // Validate
+  // ── Helper: set field error ───────────────────────────────────
+  function setError(groupId, errorId, msg, isError) {
+    const group = document.getElementById(groupId);
+    const errEl = document.getElementById(errorId);
+    if (isError) {
+      group.classList.add('has-error');
+      if (msg && errEl) errEl.textContent = msg;
+    } else {
+      group.classList.remove('has-error');
+    }
+    return !isError;
+  }
+
+  // ── Full validation ───────────────────────────────────────────
   function validateForm() {
     let valid = true;
 
-    const fields = [
-      { id: 'group-email', input: document.getElementById('email'),
-        check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-      { id: 'group-documento', input: document.getElementById('documento'),
-        check: v => /^[0-9]+$/.test(v.trim()) },
-      { id: 'group-nombres_apellidos', input: document.getElementById('nombres_apellidos'),
-        check: v => v.trim().length > 1 },
-      { id: 'group-fecha_inicio', input: fechaInicio,
-        check: v => v !== '' },
-      { id: 'group-fecha_fin', input: fechaFin,
-        check: v => v !== '' },
-      { id: 'group-diagnostico', input: document.getElementById('diagnostico'),
-        check: v => v.trim().length > 2 },
-    ];
+    // Email
+    const emailVal = document.getElementById('email').value.trim();
+    valid = setError('group-email', 'error-email',
+      'Ingrese un correo válido con dominio @' + ALLOWED_DOMAIN,
+      !validEmail(emailVal)) && valid;
 
-    fields.forEach(f => {
-      const group = document.getElementById(f.id);
-      if (!f.check(f.input.value)) {
-        group.classList.add('has-error');
-        valid = false;
-      } else {
-        group.classList.remove('has-error');
-      }
-    });
+    // Documento
+    const docVal = document.getElementById('documento').value.trim();
+    valid = setError('group-documento', 'error-documento',
+      'La cédula debe tener entre 8 y 10 dígitos numéricos.',
+      !validDocumento(docVal)) && valid;
 
-    // Radio: tipo_novedad
+    // Nombre
+    const nomVal = document.getElementById('nombres_apellidos').value.trim();
+    valid = setError('group-nombres_apellidos', 'error-nombres_apellidos',
+      'El nombre solo puede contener letras y espacios, sin números.',
+      !validNombre(nomVal)) && valid;
+
+    // Tipo novedad
     const novedad = document.querySelector('input[name="tipo_novedad"]:checked');
-    document.getElementById('group-tipo_novedad').classList.toggle('has-error', !novedad);
-    if (!novedad) valid = false;
+    valid = setError('group-tipo_novedad', 'error-tipo_novedad',
+      'Seleccione un tipo de novedad.', !novedad) && valid;
 
-    // Radio: prorroga
-    const prorroga = document.querySelector('input[name="prorroga"]:checked');
-    document.getElementById('group-prorroga').classList.toggle('has-error', !prorroga);
-    if (!prorroga) valid = false;
+    // Fecha inicio
+    const fechaInicioOk = validDate(fechaInicioEl.value);
+    valid = setError('group-fecha_inicio', 'error-fecha_inicio',
+      'Ingrese una fecha válida (entre 2000 y 2099).', !fechaInicioOk) && valid;
 
-    // File
-    const archivoGroup = document.getElementById('group-archivo');
-    if (!archivoInput.files[0]) {
-      archivoGroup.classList.add('has-error');
-      valid = false;
-    } else {
-      archivoGroup.classList.remove('has-error');
+    // Fecha fin
+    const fechaFinOk = validDate(fechaFinEl.value) && validDates();
+    valid = setError('group-fecha_fin', 'error-fecha_fin',
+      'La fecha final debe ser igual o posterior a la fecha de inicio.', !fechaFinOk) && valid;
+
+    // Validate days aren't absurd (extra check)
+    if (fechaInicioOk && fechaFinOk) {
+      const dias = parseInt(diasInput.value, 10);
+      if (dias < 1 || dias > MAX_INCAPACITY_DAYS) {
+        // Show warning but don't block submit (business rule may allow > 540)
+        daysWarning.style.display = dias > MAX_INCAPACITY_DAYS ? 'block' : 'none';
+      }
     }
+
+    // Prórroga
+    const prorroga = document.querySelector('input[name="prorroga"]:checked');
+    valid = setError('group-prorroga', 'error-prorroga',
+      'Indique si es prórroga.', !prorroga) && valid;
+
+    // Archivo
+    const file = archivoInput.files[0];
+    const fileResult = validFile(file);
+    if (!fileResult.ok) {
+      errorArchivo.textContent = fileResult.msg;
+    }
+    valid = setError('group-archivo', 'error-archivo', null, !fileResult.ok) && valid;
+
+    // Diagnóstico
+    const diagVal = document.getElementById('diagnostico').value.trim();
+    valid = setError('group-diagnostico', 'error-diagnostico',
+      'El diagnóstico debe tener al menos 10 caracteres.',
+      diagVal.length < 10) && valid;
 
     return valid;
   }
 
-  // Submit
-  const form = document.getElementById('incapacidadForm');
+  // ── Submit ────────────────────────────────────────────────────
+  const form      = document.getElementById('incapacidadForm');
   const submitBtn = document.getElementById('submitBtn');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     if (!validateForm()) {
-      showToast('Por favor complete todos los campos obligatorios.', 'error');
+      showToast('⚠ Por favor corrija los errores antes de enviar.', 'error');
+      // Scroll to first error
+      const firstError = document.querySelector('.field-group.has-error');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
@@ -589,20 +734,18 @@
     submitBtn.innerHTML = '<span class="spinner"></span>Enviando...';
 
     const formData = new FormData();
-    formData.append('email', document.getElementById('email').value);
-    formData.append('documento', document.getElementById('documento').value);
-    formData.append('nombres_apellidos', document.getElementById('nombres_apellidos').value);
-    formData.append('tipo_novedad', document.querySelector('input[name="tipo_novedad"]:checked').value);
-    formData.append('fecha_inicio', fechaInicio.value);
-    formData.append('fecha_fin', fechaFin.value);
-    formData.append('dias_incapacidad', diasInput.value);
-    formData.append('prorroga', document.querySelector('input[name="prorroga"]:checked').value);
-    formData.append('diagnostico', document.getElementById('diagnostico').value);
-    formData.append('archivo', archivoInput.files[0]);
-
-    // Auto-fill ID, timestamps
-    formData.append('hora_inicio', new Date().toISOString());
-    formData.append('id_respuesta', 'INC-' + Date.now());
+    formData.append('email',              sanitize(document.getElementById('email').value.trim().toLowerCase()));
+    formData.append('documento',          document.getElementById('documento').value.trim());
+    formData.append('nombres_apellidos',  sanitize(document.getElementById('nombres_apellidos').value.trim()));
+    formData.append('tipo_novedad',       document.querySelector('input[name="tipo_novedad"]:checked').value);
+    formData.append('fecha_inicio',       fechaInicioEl.value);
+    formData.append('fecha_fin',          fechaFinEl.value);
+    formData.append('dias_incapacidad',   diasInput.value);
+    formData.append('prorroga',           document.querySelector('input[name="prorroga"]:checked').value);
+    formData.append('diagnostico',        sanitize(document.getElementById('diagnostico').value.trim()));
+    formData.append('archivo',            archivoInput.files[0]);
+    formData.append('hora_envio',         new Date().toISOString());
+    formData.append('id_respuesta',       'INC-' + Date.now());
 
     try {
       const response = await fetch(WEBHOOK_URL, {
@@ -615,9 +758,14 @@
         form.reset();
         fileNameDisplay.style.display = 'none';
         diasInput.value = '';
-        setTimeout(() => { submitBtn.disabled = false; submitBtn.textContent = 'Enviar'; }, 4500);
+        daysWarning.style.display = 'none';
+        document.querySelectorAll('.field-group.has-error').forEach(g => g.classList.remove('has-error'));
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar';
+        }, 5000);
       } else {
-        throw new Error('Error del servidor');
+        throw new Error('Error del servidor: ' + response.status);
       }
     } catch (err) {
       showToast('❌ Ocurrió un error al enviar. Intente nuevamente.', 'error');
@@ -626,12 +774,13 @@
     }
   });
 
-  // Clear
+  // ── Clear ─────────────────────────────────────────────────────
   document.getElementById('clearBtn').addEventListener('click', () => {
     if (confirm('¿Desea borrar todos los campos?')) {
       form.reset();
       fileNameDisplay.style.display = 'none';
       diasInput.value = '';
+      daysWarning.style.display = 'none';
       document.querySelectorAll('.field-group.has-error').forEach(g => g.classList.remove('has-error'));
     }
   });
