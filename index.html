@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte de Incapacidad</title>
+<title>JJ_Reporte de Incapacidad</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -422,7 +422,7 @@
       <div class="field-group" id="group-dias">
         <label for="dias"><span class="num">→</span> Días de incapacidad</label>
         <input type="number" id="dias" name="dias" placeholder="Se calcula automáticamente" readonly>
-        <div class="days-warning" id="days-warning">⚠ La incapacidad supera 181 días. Verifique las fechas.</div>
+        <div class="days-warning" id="days-warning">⚠ La incapacidad supera 180 días. Verifique las fechas.</div>
       </div>
 
       <!-- Prórroga -->
@@ -677,7 +677,7 @@
     // Fecha inicio
     const fechaInicioOk = validDate(fechaInicioEl.value);
     valid = setError('group-fecha_inicio', 'error-fecha_inicio',
-      'Ingrese una fecha válida (entre 2000 y 2099).', !fechaInicioOk) && valid;
+      'Ingrese una fecha válida (entre 2025 y 2030).', !fechaInicioOk) && valid;
 
     // Fecha fin
     const fechaFinOk = validDate(fechaFinEl.value) && validDates();
@@ -688,7 +688,7 @@
     if (fechaInicioOk && fechaFinOk) {
       const dias = parseInt(diasInput.value, 10);
       if (dias < 1 || dias > MAX_INCAPACITY_DAYS) {
-        // Show warning but don't block submit (business rule may allow > 181)
+        // Show warning but don't block submit (business rule may allow > 180)
         daysWarning.style.display = dias > MAX_INCAPACITY_DAYS ? 'block' : 'none';
       }
     }
