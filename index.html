@@ -466,7 +466,7 @@
         <textarea id="diagnostico" name="diagnostico"
                   placeholder="Describa el diagnóstico médico" required maxlength="1000"></textarea>
         <div class="field-hint">Mínimo 5 caracteres. Máx. 1000.</div>
-        <div class="field-error" id="error-diagnostico">El diagnóstico debe tener al menos 10 caracteres.</div>
+        <div class="field-error" id="error-diagnostico">El diagnóstico debe tener al menos 5 caracteres.</div>
       </div>
 
     </div>
@@ -709,8 +709,8 @@
     // Diagnóstico
     const diagVal = document.getElementById('diagnostico').value.trim();
     valid = setError('group-diagnostico', 'error-diagnostico',
-      'El diagnóstico debe tener al menos 10 caracteres.',
-      diagVal.length < 10) && valid;
+      'El diagnóstico debe tener al menos 5 caracteres.',
+      diagVal.length < 5) && valid;
 
     return valid;
   }
