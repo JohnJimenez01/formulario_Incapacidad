@@ -422,7 +422,7 @@
       <div class="field-group" id="group-dias">
         <label for="dias"><span class="num">→</span> Días de incapacidad</label>
         <input type="number" id="dias" name="dias" placeholder="Se calcula automáticamente" readonly>
-        <div class="days-warning" id="days-warning">⚠ La incapacidad supera 540 días. Verifique las fechas.</div>
+        <div class="days-warning" id="days-warning">⚠ La incapacidad supera 181 días. Verifique las fechas.</div>
       </div>
 
       <!-- Prórroga -->
@@ -465,7 +465,7 @@
         <label for="diagnostico"><span class="num">9.</span> Diagnóstico <span class="req">*</span></label>
         <textarea id="diagnostico" name="diagnostico"
                   placeholder="Describa el diagnóstico médico" required maxlength="1000"></textarea>
-        <div class="field-hint">Mínimo 10 caracteres. Máx. 1000.</div>
+        <div class="field-hint">Mínimo 5 caracteres. Máx. 1000.</div>
         <div class="field-error" id="error-diagnostico">El diagnóstico debe tener al menos 10 caracteres.</div>
       </div>
 
@@ -493,9 +493,9 @@
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
   ];
-  const MIN_DATE = new Date('2000-01-01');
-  const MAX_DATE = new Date('2099-12-31');
-  const MAX_INCAPACITY_DAYS = 540;
+  const MIN_DATE = new Date('2025-01-01');
+  const MAX_DATE = new Date('2030-12-31');
+  const MAX_INCAPACITY_DAYS = 180;
   // ────────────────────────────────────────────────────────────
 
   const fechaInicioEl = document.getElementById('fecha_inicio');
@@ -505,8 +505,8 @@
 
   // Set min/max for date inputs to avoid absurd dates
   const todayStr = new Date().toISOString().split('T')[0];
-  const minDateStr = '2000-01-01';
-  const maxDateStr = '2099-12-31';
+  const minDateStr = '2025-01-01';
+  const maxDateStr = '2030-12-31';
   fechaInicioEl.setAttribute('min', minDateStr);
   fechaInicioEl.setAttribute('max', maxDateStr);
   fechaFinEl.setAttribute('min', minDateStr);
@@ -688,7 +688,7 @@
     if (fechaInicioOk && fechaFinOk) {
       const dias = parseInt(diasInput.value, 10);
       if (dias < 1 || dias > MAX_INCAPACITY_DAYS) {
-        // Show warning but don't block submit (business rule may allow > 540)
+        // Show warning but don't block submit (business rule may allow > 181)
         daysWarning.style.display = dias > MAX_INCAPACITY_DAYS ? 'block' : 'none';
       }
     }
@@ -754,7 +754,7 @@
       });
 
       if (response.ok) {
-        showToast('✅ Incapacidad registrada correctamente. Recibirá confirmación por correo.');
+        showToast('✅ Incapacidad registrada correctamente.');
         form.reset();
         fileNameDisplay.style.display = 'none';
         diasInput.value = '';
