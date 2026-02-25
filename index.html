@@ -455,9 +455,9 @@
       <div class="field-group" id="group-diagnostico">
         <label for="diagnostico"><span class="num">9.</span> Diagnóstico <span class="req">*</span></label>
         <textarea id="diagnostico" name="diagnostico"
-                  placeholder="Describa el diagnóstico médico" required maxlength="1000"></textarea>
-        <div class="field-hint">Mínimo 4 caracteres. Máx. 1000.</div>
-        <div class="field-error" id="error-diagnostico">El diagnóstico debe tener al menos 4 caracteres.</div>
+                  placeholder="Ingrese únicamente el código CIE proporcionado. Si lo desconoce, escriba el diagnóstico correspondiente" required maxlength="1000"></textarea>
+        <div class="field-hint">Mínimo 3 caracteres. Máx. 1000.</div>
+        <div class="field-error" id="error-diagnostico">El diagnóstico debe tener al menos 3 caracteres.</div>
       </div>
 
       <div class="divider"></div>
@@ -685,8 +685,8 @@
 
     // Diagnóstico
     valid = setError('group-diagnostico', 'error-diagnostico',
-      'El diagnóstico debe tener al menos 4 caracteres.',
-      document.getElementById('diagnostico').value.trim().length < 4) && valid;
+      'El diagnóstico debe tener al menos 3 caracteres.',
+      document.getElementById('diagnostico').value.trim().length < 3) && valid;
 
     // Email jefe inmediato
     valid = setError('group-email_jefe_inmediato', 'error-email_jefe_inmediato',
